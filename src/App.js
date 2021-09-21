@@ -1,274 +1,72 @@
 import React, { useState } from "react";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import ToDoListComponent from "./Components/toDoListComponent";
-import { Helmet } from "react-helmet";
-const reorder = (list, startIndex, endIndex) => {
-  const [removed] = list.splice(startIndex, 1);
-  list.splice(endIndex, 0, removed);
-  return list;
-};
-let max = 0;
-function App() {
-  let tasks = [
-    { id: "0", content: "first", isCompleted: true },
-    { id: "1", content: "second", isCompleted: false },
-    { id: "2", content: "third", isCompleted: false }
+import UserTable from "./Components/Tables/userTable";
+import AddUserForm from "./Components/Forms/addUserForm";
+import EditUserForm from "./Components/Forms/editUserForm";
+
+const App = () => {
+  const usersData = [
+    { id: 1, name: "Adam", username: "adambullet" },
+    { id: 2, name: "Nathan", username: "nlbullet" },
+    { id: 3, name: "Nora", username: "norabullet" }
   ];
 
-  function onDragEnd(result) {
-    // dropped outside the list
-    if (!result.destination) {
-      return;
-    }
+  const [users, setUsers] = useState(usersData);
 
-    const files = reorder(
-      allFilters,
-      result.source.index,
-      result.destination.index
-    );
-
-    setAll(files);
-  }
-
-  const [darkmode, setDark] = useState(false);
-  const [inputVal, setValue] = useState("");
-  const [allFilters, setAll] = useState(tasks);
-  const [doingFilters, setDoing] = useState(
-    allFilters.filter((el) => el.isCompleted === false)
-  );
-  const [completeFilters, setComplete] = useState(
-    allFilters.filter((el) => el.isCompleted === true)
-  );
-  const [allActive, switchAllBool] = useState(true);
-  const [completeActive, switchCompleteBool] = useState(false);
-  const [doingActive, switchDoingBool] = useState(false);
-  const addNewTask = (e) => {
-    max += 1;
-    e.preventDefault();
-    allFilters.push({
-      content: inputVal,
-      isCompleted: false,
-      id: `${max}`
-    });
-    console.log(allFilters[allFilters.length - 1]);
-    refresh();
-    setValue("");
+  const addUser = user => {
+    user.id = users.length + 1;
+    setUsers([...users, user]);
   };
 
-  const handleDark = function () {
-    setDark(!darkmode);
+  const deleteUser = id => {
+    setEditing(false);
+    setUsers(users.filter(user => user.id !== id));
   };
 
-  const handleChange = function (e) {
-    setValue(e.target.value);
-  };
-  const switchComplete = () => {
-    switchAllBool(false);
-    switchCompleteBool(true);
-    switchDoingBool(false);
-    refresh();
+  const [editing, setEditing] = useState(false);
+  const initialFormState = { id: null, name: "", username: "" };
+  const [currentUser, setCurrentUser] = useState(initialFormState);
+
+  const editRow = user => {
+    setEditing(true);
+    console.log(user);
+    setCurrentUser({ id: user.id, name: user.name, username: user.username });
   };
 
-  const switchDoing = () => {
-    switchAllBool(false);
-    switchCompleteBool(false);
-    switchDoingBool(true);
-    refresh();
-  };
+  const updateUser = (id, updatedUser) => {
+    setEditing(false);
 
-  const switchAll = () => {
-    switchAllBool(true);
-    switchCompleteBool(false);
-    switchDoingBool(false);
-    setAll(allFilters);
-    refresh();
+    setUsers(users.map(user => (user.id === id ? updatedUser : user)));
   };
-
-  const handleDelete = (target) => {
-    setAll(allFilters.filter((el) => el !== target));
-    setComplete(
-      allFilters.filter((el) => el.isCompleted === true && el !== target)
-    );
-    setDoing(
-      allFilters.filter((el) => el.isCompleted === false && el !== target)
-    );
-  };
-
-  const clearCompleted = () => {
-    setAll(allFilters.filter((el) => el.isCompleted === false));
-    setComplete([]);
-  };
-  const refresh = function () {
-    setAll(allFilters);
-    setComplete(allFilters.filter((el) => el.isCompleted === true));
-    setDoing(allFilters.filter((el) => el.isCompleted === false));
-  };
-  console.log(allFilters);
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <Helmet>
-        <style>{` ${
-          darkmode && "body { background-color: #25273c; }"
-        }yarn add react-helmet`}</style>
-      </Helmet>
-      <div className={"flex flex-jc-c flex-ai-c"}>
-        <img
-          src={
-            darkmode
-              ? "/images/bg-desktop-dark.jpg"
-              : "/images/bg-desktop-light.jpg"
-          }
-          alt="light-img"
-          className="canvas hide-for-mobile"
-        />
-        <img
-          src={
-            darkmode
-              ? "/images/bg-mobile-dark.jpg"
-              : "/images/bg-mobile-light.jpg"
-          }
-          alt="light-img"
-          className="canvas canvas-mobile hide-for-desktop"
-        />
-        <div className="wrapper">
-          <div className="header flex flex-jc-sb flex-ai-c">
-            <h1 style={{ color: "#fff" }}>T O D O</h1>
-            <img
-              src="/images/icon-moon.svg"
-              alt="moon"
-              style={{ height: "1.875em", cursor: "pointer" }}
-              onClick={handleDark}
-            />
-          </div>
-          <div
-            className={`create flex flex-ai-c ${darkmode && "darkModeColor"}`}
-          >
-            <div className="check"></div>
-            <form onSubmit={addNewTask}>
-              <input
-                type="text"
-                className="create-textbox"
-                placeholder="Create a new todo..."
-                value={inputVal}
-                onChange={handleChange}
+    <div className="container">
+      <h1>Employee Records</h1>
+      <div className="flex-row">
+        <div className="flex-large">
+          {editing ? (
+            <div>
+              <h2>Edit User</h2>
+              <EditUserForm
+                editing={editing}
+                setEditing={setEditing}
+                currentUser={currentUser}
+                updateUser={updateUser}
               />
-            </form>
-          </div>
-
-          <ul
-            style={{
-              // height: `${4 * allFilters.length}em`,
-              backgroundColor: `${darkmode ? "#484b6a" : "#fff"}`,
-              height: "fit-content"
-            }}
-          >
-            <Droppable droppableId={"0"}>
-              {(provided) => (
-                <div ref={provided.innerRef} {...provided.droppableProps}>
-                  {allActive &&
-                    allFilters.map((el, index) => (
-                      <ToDoListComponent
-                        task={el}
-                        id={el.id}
-                        index={index}
-                        handleDelete={handleDelete}
-                        refresh={refresh}
-                        darkmode={darkmode}
-                      ></ToDoListComponent>
-                    ))}
-                  {doingActive &&
-                    doingFilters.map((el, index) => (
-                      <ToDoListComponent
-                        task={el}
-                        id={el.id}
-                        index={index}
-                        handleDelete={handleDelete}
-                        refresh={refresh}
-                        darkmode={darkmode}
-                      ></ToDoListComponent>
-                    ))}
-                  {completeActive &&
-                    completeFilters.map((el, index) => (
-                      <ToDoListComponent
-                        task={el}
-                        id={el.id}
-                        index={index}
-                        handleDelete={handleDelete}
-                        refresh={refresh}
-                        darkmode={darkmode}
-                      ></ToDoListComponent>
-                    ))}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </ul>
-
-          <div
-            className={`options flex flex-jc-sb flex-ai-c ${
-              darkmode && "darkModeColor"
-            }`}
-            style={{ color: "#777a92" }}
-          >
-            <div className="task-left">
-              {allFilters.filter((el) => el.isCompleted === false).length} items
-              left
             </div>
-            <div className="filter flex hide-for-mobile">
-              <div
-                className={`all ${allActive && "selected"}`}
-                onClick={switchAll}
-              >
-                All
-              </div>
-              <div
-                className={`active ${doingActive && "selected"}`}
-                onClick={switchDoing}
-              >
-                Active
-              </div>
-              <div
-                className={`complete ${completeActive && "selected"}`}
-                onClick={switchComplete}
-              >
-                Completed
-              </div>
+          ) : (
+            <div>
+              <h2>Add user</h2>
+              <AddUserForm addUser={addUser} />
             </div>
-            <div className="clear-completed" onClick={clearCompleted}>
-              Clear Completed
-            </div>
-          </div>
-
-          <div
-            className={`filter flex flex-ai-c flex-jc-c hide-for-desktop ${
-              darkmode && "darkModeColor"
-            }`}
-          >
-            <div
-              className={`all ${allActive && "selected"}`}
-              onClick={switchAll}
-            >
-              All
-            </div>
-            <div
-              className={`active ${doingActive && "selected"}`}
-              onClick={switchDoing}
-            >
-              Active
-            </div>
-            <div
-              className={`complete ${completeActive && "selected"}`}
-              onClick={switchComplete}
-            >
-              Completed
-            </div>
-          </div>
-          <div className="help">Drag and Drop to reorder list</div>
+          )}
+        </div>
+        <div className="flex-large">
+          <h2>View users</h2>
+          <UserTable users={users} editRow={editRow} deleteUser={deleteUser} />
         </div>
       </div>
-    </DragDropContext>
+    </div>
   );
-}
+};
 
 export default App;
