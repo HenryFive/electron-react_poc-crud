@@ -1,71 +1,73 @@
 import React, { useState } from "react";
-import UserTable from "./Components/Tables/userTable";
-import AddUserForm from "./Components/Forms/addUserForm";
-import EditUserForm from "./Components/Forms/editUserForm";
+import InventoryTable from "./Components/Tables/inventoryTable";
+import AddItem from "./Components/Forms/addItem";
+import EditItem from "./Components/Forms/editItem";
+import "./App.css";
 
 const App = () => {
-  const usersData = [
-    { id: 1, name: "Adam", username: "adambullet" },
-    { id: 2, name: "Nathan", username: "nlbullet" },
-    { id: 3, name: "Nora", username: "norabullet" }
+  const itemsData = [
+    { id: 1, name: "Tray", description: "Aluminum from Pakistan", qty: 10 },
+    { id: 2, name: "Pot", description: "Copper, small", qty: 3 },
+    { id: 3, name: "Spoons", description: "Stainless steel", qty: 22 },
+    { id: 4, name: "Forks", description: "Stainless steel", qty: 22 }
   ];
 
-  const [users, setUsers] = useState(usersData);
+  const [items, setItems] = useState(itemsData);
 
-  const addUser = user => {
-    user.id = users.length + 1;
-    setUsers([...users, user]);
+  const addItem = item => {
+    item.id = items.length + 1;
+    setItems([...items, item]);
   };
 
-  const deleteUser = id => {
+  const deleteItem = id => {
     setEditing(false);
-    setUsers(users.filter(user => user.id !== id));
+    setItems(items.filter(item => item.id !== id));
   };
 
   const [editing, setEditing] = useState(false);
-  const initialFormState = { id: null, name: "", username: "" };
-  const [currentUser, setCurrentUser] = useState(initialFormState);
+  const initialFormState = { id: null, name: "", description: "", qty: 12  };
+  const [currentItem, setCurrentItem] = useState(initialFormState);
 
-  const editRow = user => {
+  const editRow = item => {
     setEditing(true);
-    console.log(user);
-    setCurrentUser({ id: user.id, name: user.name, username: user.username });
+    console.log(item);
+    setCurrentItem({ id: item.id, name: item.name, description: item.description, qty: item.qty });
   };
 
-  const updateUser = (id, updatedUser) => {
+  const updateItem = (id, updatedItem) => {
     setEditing(false);
 
-    setUsers(users.map(user => (user.id === id ? updatedUser : user)));
+    setItems(items.map(item => (item.id === id ? updatedItem : item)));
   };
 
   return (
-    <div className="container">
-      <h1>Employee Records</h1>
-      <div className="flex-row">
-        <div className="flex-large">
-          {editing ? (
+    <section class="main">
+      <h1>Inventory</h1>
+      <section>
+        <section>
+          <h2>View items</h2>
+          <InventoryTable items={items} editRow={editRow} deleteItem={deleteItem} />
+        </section>
+        <section>
+          {editing ? ( 
             <div>
-              <h2>Edit User</h2>
-              <EditUserForm
+              <h2>Edit item</h2>
+              <EditItem
                 editing={editing}
                 setEditing={setEditing}
-                currentUser={currentUser}
-                updateUser={updateUser}
+                currentItem={currentItem}
+                updateItem={updateItem}
               />
             </div>
           ) : (
             <div>
-              <h2>Add user</h2>
-              <AddUserForm addUser={addUser} />
+              <h2>Add item</h2>
+              <AddItem addItem={addItem} />
             </div>
           )}
-        </div>
-        <div className="flex-large">
-          <h2>View users</h2>
-          <UserTable users={users} editRow={editRow} deleteUser={deleteUser} />
-        </div>
-      </div>
-    </div>
+        </section>
+      </section>
+    </section>
   );
 };
 

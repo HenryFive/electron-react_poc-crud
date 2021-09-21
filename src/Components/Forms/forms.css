@@ -1,0 +1,28 @@
+form{
+    border-top: solid 5px rgb(215, 234, 255);
+    border-bottom: solid 5px rgb(215, 234, 255);
+    padding: 15px 0 10px;
+}
+.form__div{
+    display: flex;
+}
+.form__button {
+    margin-top: 10px;
+}
+
+
+label {
+    display: block;
+    width: 90px;
+}
+input {
+    margin-bottom: 10px;
+    border: 2px solid rgb(128, 128, 128);
+    border-radius: 5px;
+    padding: 3px;
+}
+
+input:current{
+    border-color: rgb(42, 133, 238);
+    color: inherit;
+}
