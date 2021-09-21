@@ -6,7 +6,6 @@ const AddItem = props => {
   const [item, setItem] = useState(initialFormState);
   const handleInputChange = event => {
     const { name, value } = event.target;
-    console.log(event);
     setItem({ ...item, [name]: value });
   };
   return (

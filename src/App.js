@@ -30,7 +30,6 @@ const App = () => {
 
   const editRow = item => {
     setEditing(true);
-    console.log(item);
     setCurrentItem({ id: item.id, name: item.name, description: item.description, qty: item.qty });
   };
 
