@@ -9,7 +9,7 @@ td {
 
 table {
     border-top: solid 5px rgb(215, 234, 255);
-    border-bottom: solid 5px rgb(215, 234, 255);
+    /* border-bottom: solid 5px rgb(215, 234, 255); */
     padding-bottom: 10px;
 }
 
@@ -17,6 +17,9 @@ td:nth-of-type(2){
     width: 280px;
 }
 
+.table--actions{
+    padding-right: 0;
+}
 .table__delete-button:hover{
     background-color: rgb(252, 120, 120);
 }

@@ -37,13 +37,13 @@ const AddItem = props => {
         />
       </div>
       <div class="form__div">
-      <label>Qty: </label>
-      <input
-        type="text"
-        name="qty"
-        value={item.qty}
-        onChange={handleInputChange}
-      />
+        <label>Qty: </label>
+        <input
+          type="text"
+          name="qty"
+          value={item.qty}
+          onChange={handleInputChange}
+        />
       </div>
       <button class="form__button">Add new item</button>
     </form>

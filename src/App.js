@@ -7,7 +7,7 @@ import "./App.css";
 const App = () => {
   const itemsData = [
     { id: 1, name: "Tray", description: "Aluminum from Pakistan", qty: 10 },
-    { id: 2, name: "Pot", description: "Copper, small", qty: 3 },
+    { id: 2, name: "Couldron", description: "Copper, small", qty: 3 },
     { id: 3, name: "Spoons", description: "Stainless steel", qty: 22 },
     { id: 4, name: "Forks", description: "Stainless steel", qty: 22 }
   ];
