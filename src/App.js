@@ -40,7 +40,7 @@ const App = () => {
   };
 
   return (
-    <section class="main">
+    <section className="main">
       <h1>Inventory</h1>
       <section>
         <section>

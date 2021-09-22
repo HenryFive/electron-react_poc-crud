@@ -19,7 +19,7 @@ const InventoryTable = props => {
               <td>{item.name}</td>
               <td>{item.description}</td>
               <td>{item.qty}</td>
-              <td class="table--actions">
+              <td className="table--actions">
                 <button
                   onClick={() => props.editRow(item)}
                 >

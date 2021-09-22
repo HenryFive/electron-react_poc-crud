@@ -20,7 +20,7 @@ const EditItem = props => {
         props.updateItem(item.id, item);
       }}
     >
-      <div class="form__div">
+      <div className="form__div">
         <label>Name: </label>
         <input
           type="text"
@@ -29,7 +29,7 @@ const EditItem = props => {
           onChange={handleInputChange}
         />
       </div>
-      <div class="form__div">
+      <div className="form__div">
         <label>Description: </label>
         <input
           type="text"
@@ -38,7 +38,7 @@ const EditItem = props => {
           onChange={handleInputChange}
         />
       </div>
-      <div class="form__div">
+      <div className="form__div">
         <label>Qty: </label>
         <input
           type="text"
@@ -47,10 +47,10 @@ const EditItem = props => {
           onChange={handleInputChange}
         />
       </div>
-      <button class="form_button">Update item</button>
+      <button className="form_button">Update item</button>
       <button
         onClick={() => props.setEditing(false)}
-        class="form_button"
+        className="form_button"
       >
         Cancel
       </button>

@@ -18,7 +18,7 @@ const AddItem = props => {
         setItem(initialFormState);
       }}
     >
-      <div class="form__div">
+      <div className="form__div">
         <label>Name: </label>
         <input
           type="text"
@@ -27,7 +27,7 @@ const AddItem = props => {
           onChange={handleInputChange}
         />
       </div>
-      <div class="form__div">
+      <div className="form__div">
         <label>Description: </label>
         <input
           type="text"
@@ -36,7 +36,7 @@ const AddItem = props => {
           onChange={handleInputChange}
         />
       </div>
-      <div class="form__div">
+      <div className="form__div">
         <label>Qty: </label>
         <input
           type="text"
@@ -45,7 +45,7 @@ const AddItem = props => {
           onChange={handleInputChange}
         />
       </div>
-      <button class="form__button">Add new item</button>
+      <button className="form__button">Add new item</button>
     </form>
   );
 };
